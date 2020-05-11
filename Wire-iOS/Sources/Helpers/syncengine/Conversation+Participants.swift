@@ -24,7 +24,7 @@ extension ZMConversation {
         case offline
     }
     
-    static let maxVideoCallParticipants: Int = 4
+    static let maxVideoCallParticipants: Int = 100
     
     static let maxParticipants: Int = 500
     

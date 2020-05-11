@@ -239,18 +239,7 @@ extension ZMConversation {
 
     var canStartVideoCall: Bool {
         guard !isCallOngoing else { return false }
-
-        if self.conversationType == .oneOnOne {
-            return true
-        }
-
-        if self.conversationType == .group &&
-            ZMUser.selfUser().isTeamMember &&
-            isConversationEligibleForVideoCalls {
-            return true
-        }
-
-        return false
+        return true
     }
 
     var isConversationEligibleForVideoCalls: Bool {
