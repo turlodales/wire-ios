@@ -59,6 +59,33 @@
                   Identifier = "BackgroundViewControllerTests/testThatItUpdatesForUserImageUpdate_fromAccentColor()">
                </Test>
                <Test
+                  Identifier = "CallInfoConfigurationTests/testGroupAudioEstablishedLargeGroup()">
+               </Test>
+               <Test
+                  Identifier = "ConversationCreationControllerSnapshotTests/testTeamGroupOptionsCollapsed()">
+               </Test>
+               <Test
+                  Identifier = "ConversationCreationControllerSnapshotTests/testTeamGroupOptionsCollapsed_dark()">
+               </Test>
+               <Test
+                  Identifier = "ConversationCreationControllerSnapshotTests/testTeamGroupOptionsExpanded()">
+               </Test>
+               <Test
+                  Identifier = "GroupDetailsViewControllerSnapshotTests/testForOptionsForTeamUserInNonTeamConversation()">
+               </Test>
+               <Test
+                  Identifier = "GroupDetailsViewControllerSnapshotTests/testForOptionsForTeamUserInNonTeamConversation_Partner()">
+               </Test>
+               <Test
+                  Identifier = "GroupDetailsViewControllerSnapshotTests/testForOptionsForTeamUserInTeamConversation()">
+               </Test>
+               <Test
+                  Identifier = "GroupDetailsViewControllerSnapshotTests/testForOptionsForTeamUserInTeamConversation_Admins()">
+               </Test>
+               <Test
+                  Identifier = "GroupDetailsViewControllerSnapshotTests/testForOptionsForTeamUserInTeamConversation_Partner()">
+               </Test>
+               <Test
                   Identifier = "ShareViewControllerTests/testThatItRendersCorrectlyShareViewController_FileMessage()">
                </Test>
                <Test
