@@ -62,6 +62,9 @@
                   Identifier = "CallInfoConfigurationTests/testGroupAudioEstablishedLargeGroup()">
                </Test>
                <Test
+                  Identifier = "CallInfoConfigurationTests/testGroupAudioEstablishedNonTeamUser()">
+               </Test>
+               <Test
                   Identifier = "ConversationCreationControllerSnapshotTests/testTeamGroupOptionsCollapsed()">
                </Test>
                <Test
