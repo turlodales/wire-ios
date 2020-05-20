@@ -227,7 +227,7 @@ fileprivate extension VoiceChannel {
     var canUpgradeToVideo: Bool {
         guard let conversation = conversation, conversation.conversationType != .oneOnOne else { return true }
         guard conversation.localParticipants.count <= ZMConversation.maxVideoCallParticipants else { return false }
-        return ZMUser.selfUser().isTeamMember || isAnyParticipantSendingVideo
+        return true
     }
     
     var isAnyParticipantSendingVideo: Bool {
