@@ -37,8 +37,7 @@ final class CreatePasscodeStepDescription: AuthenticationStepDescription {
     init() {
 //        backButton = BackButtonDescription()
         
-        let passwordField = EmailPasswordFieldDescription(forRegistration: true, usePasswordDeferredValidation: true) ///TODO: rename EmailPasswordFieldDescription?
-
+        let passwordField = PasscodeFieldDescription()
         
         mainView = passwordField
         //TODO: text copy
