@@ -22,13 +22,15 @@ import UIKit
  * A view that displays a solid button.
  */
 
-class SolidButtonDescription: ValueSubmission {
+final class SolidButtonDescription: ValueSubmission {
     let title: String
     let accessibilityIdentifier: String
 
     var valueSubmitted: ValueSubmitted?
     var valueValidated: ValueValidated?
     var acceptsInput: Bool = true
+    
+    var button: IconButton?
 
     init(title: String, accessibilityIdentifier: String) {
         self.title = title
@@ -64,6 +66,8 @@ extension SolidButtonDescription: ViewDescriptor {
             button.centerXAnchor.constraint(equalTo: buttonContainer.centerXAnchor)
         ])
 
+        self.button = button
+        
         return buttonContainer
     }
 

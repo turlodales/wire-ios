@@ -24,7 +24,7 @@ protocol EmailPasswordTextFieldDelegate: class {
     func textField(_ textField: EmailPasswordTextField, didConfirmCredentials credentials: (String, String))
 }
 
-class EmailPasswordTextField: UIView, MagicTappable {
+final class EmailPasswordTextField: UIView, MagicTappable {
 
     let emailField = AccessoryTextField(kind: .email)
     let passwordField = AccessoryTextField(kind: .password(isNew: false))
