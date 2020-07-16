@@ -41,7 +41,7 @@ extension PasscodeFieldDescription: ViewDescriptor, PasscodeTextFieldDelegate {
     
     
     func create() -> UIView {
-        textField.passwordField.kind = .password(isNew: true)
+        textField.passwordField.kind = .passcode
         textField.delegate = self
         
         return textField
@@ -65,7 +65,7 @@ extension PasscodeFieldDescription: ViewDescriptor, PasscodeTextFieldDelegate {
     }
 }
 
-final class PasscodeTextField: UIView, MagicTappable {
+final class PasscodeTextField: UIView {
     
     lazy var passwordField: AccessoryTextField = {
         let textField = AccessoryTextField(kind: .passcode)
@@ -149,6 +149,7 @@ final class PasscodeTextField: UIView, MagicTappable {
         case noLowercaseChar
         case noUppercaseChar
         case noSpecialChar
+        //TODO: no number?
         
         var errorMessage: String {
             switch self {
@@ -199,7 +200,7 @@ final class PasscodeTextField: UIView, MagicTappable {
         passwordField.placeholder = "Example: WirePa$s369" //TODO
         //        passwordField.bindConfirmationButton(to: emailField)
         passwordField.addTarget(self, action: #selector(textInputDidChange), for: .editingChanged)
-        passwordField.confirmButton.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
+        passwordField.confirmButton.addTarget(self, action: #selector(revealButtonTapped), for: .touchUpInside)
         passwordField.colorSchemeVariant = colorSchemeVariant
         
         passwordField.enableConfirmButton = { [weak self] in
@@ -285,24 +286,13 @@ final class PasscodeTextField: UIView, MagicTappable {
     // MARK: - Submission
     
     @objc
-    private func confirmButtonTapped() {
-        guard passwordValidationError == nil else {
-            delegate?.textFieldDidSubmitWithValidationError(self)
-            return
-        }
+    private func revealButtonTapped() {
+        passwordField.isSecureTextEntry = !passwordField.isSecureTextEntry
         
-        delegate?.textField(self, didConfirmCredentials: (passwordField.input))
+        ///TODO: eye with slash icon
+        passwordField.overrideButtonIcon = passwordField.isSecureTextEntry ? .eye : .cross
     }
-    
-    func performMagicTap() -> Bool {
-        guard passwordField.isInputValid else {
-            return false
-        }
         
-        confirmButtonTapped()
-        return true
-    }
-    
     @objc
     private func textInputDidChange(sender: UITextField) {
         if sender == passwordField {
@@ -321,7 +311,7 @@ extension PasscodeTextField: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == passwordField {
             passwordField.validateInput()
-            confirmButtonTapped()
+            revealButtonTapped()
         }
         
         return true
