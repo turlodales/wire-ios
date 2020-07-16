@@ -18,6 +18,7 @@
 
 import Foundation
 import UIKit
+import WireUtilities
 
 protocol PasscodeTextFieldDelegate: class {
     func textFieldDidUpdateText(_ textField: PasscodeTextField)
@@ -80,7 +81,56 @@ final class PasscodeTextField: UIView, MagicTappable {
     
     weak var delegate: PasscodeTextFieldDelegate?
     
-    private(set) var passwordValidationError: TextFieldValidator.ValidationError? = .tooShort(kind: .email)
+    private(set) var passwordValidationError: TextFieldValidator.ValidationError? = .tooShort(kind: .email) {
+        didSet {
+            ErrorReason.allCases.forEach() {
+                if let label = errorLabels[$0] {
+                    label.text = $0.errorMessage
+                }
+            }
+            
+            switch passwordValidationError {
+            case .invalidPassword(let error):
+                switch error {
+                case .tooShort:
+                    errorLabels[.tooShort]?.text = "❌" + ErrorReason.tooShort.errorMessage
+                case .missingRequiredClasses(let passwordCharacterClass):
+                    
+                    
+                    let passwordCharacterClasses: [PasswordCharacterClass] = [.uppercase, .lowercase, .special]
+                    
+                    passwordCharacterClasses.forEach() {
+                        let errorReason: ErrorReason?
+                        if passwordCharacterClass.contains($0) {
+                            switch $0 {
+                            case .uppercase:
+                                errorReason = .noUppercaseChar
+                            case .lowercase:
+                                errorReason = .noLowercaseChar
+                            case .special:
+                                errorReason = .noSpecialChar
+                            default:
+                                errorReason = nil
+                            }
+                        } else {
+                            errorReason = nil
+                        }
+                        
+                        if let errorReasonUnwrapped = errorReason {
+                            errorLabels[errorReasonUnwrapped]?.text = "❌" + errorReasonUnwrapped.errorMessage
+                        }
+                    }
+                    
+                default:
+                    break
+                }
+                
+            default:
+                break
+            }
+        }
+    }
+    
     
     // MARK: - Helpers
     
@@ -93,6 +143,34 @@ final class PasscodeTextField: UIView, MagicTappable {
     var isPasswordEmpty: Bool {
         return passwordField.input.isEmpty
     }
+    
+    enum ErrorReason: CaseIterable {
+        case tooShort
+        case noLowercaseChar
+        case noUppercaseChar
+        case noSpecialChar
+        
+        var errorMessage: String {
+            switch self {
+                
+            case .tooShort:
+                return "8 characters long"
+            case .noLowercaseChar:
+                return "1 lowercase letter"
+            case .noUppercaseChar:
+                return "1 capital letter"
+            case .noSpecialChar:
+                return "1 special character"
+            }
+        }
+    }
+    
+    private let errorLabels: [ErrorReason:UILabel] = [
+        .tooShort: UILabel(),
+        .noLowercaseChar: UILabel(),
+        .noUppercaseChar: UILabel(),
+        .noSpecialChar: UILabel()
+    ]
     
     // MARK: - Initialization
     
@@ -118,7 +196,7 @@ final class PasscodeTextField: UIView, MagicTappable {
         
         passwordField.delegate = self
         passwordField.textFieldValidationDelegate = self
-        passwordField.placeholder = "password.placeholder".localized(uppercased: true)
+        passwordField.placeholder = "Example: WirePa$s369" //TODO
         //        passwordField.bindConfirmationButton(to: emailField)
         passwordField.addTarget(self, action: #selector(textInputDidChange), for: .editingChanged)
         passwordField.confirmButton.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
@@ -132,13 +210,9 @@ final class PasscodeTextField: UIView, MagicTappable {
         
         //MARK: labels
         
-        let texts = ["❌ 8 characters long",
-                     "❌ 1 lowercase letter",
-                     "❌ 1 capital letter",
-                     "❌ 1 special character"]
         
-        texts.forEach() {
-            let label = UILabel()
+        ErrorReason.allCases.forEach() {
+            if let label = errorLabels[$0] {
             
             //TODO: clean up with EmailLinkVerificationMainView
             label.font = AuthenticationStepController.subtextFont
@@ -146,8 +220,9 @@ final class PasscodeTextField: UIView, MagicTappable {
             label.numberOfLines = 0
             label.lineBreakMode = .byWordWrapping
             
-            label.text = $0
+            label.text = $0.errorMessage
             contentStack.addArrangedSubview(label)
+            }
         }
     }
     
@@ -239,6 +314,8 @@ final class PasscodeTextField: UIView, MagicTappable {
     
 }
 
+//MARK: - UITextFieldDelegate
+
 extension PasscodeTextField: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -251,6 +328,8 @@ extension PasscodeTextField: UITextFieldDelegate {
     }
     
 }
+
+//MARK: - UITextFieldDelegate
 
 extension PasscodeTextField: TextFieldValidationDelegate {
     func validationUpdated(sender: UITextField, error: TextFieldValidator.ValidationError?) {
