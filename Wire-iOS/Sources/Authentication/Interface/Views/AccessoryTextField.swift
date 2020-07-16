@@ -35,6 +35,7 @@ final class AccessoryTextField: UITextField, TextContainer, Themeable {
         case email
         case name(isTeam: Bool)
         case password(isNew: Bool)
+        case passcode
         case phoneNumber
         case unknown
     }
@@ -100,11 +101,19 @@ final class AccessoryTextField: UITextField, TextContainer, Themeable {
 
     var enableConfirmButton: (() -> Bool)?
 
-    let confirmButton: IconButton = {
-        let iconButton = IconButton(style: .circular, variant: .dark)
-        iconButton.accessibilityIdentifier = "ConfirmButton"
-        iconButton.accessibilityLabel = "general.next".localized
-        iconButton.isEnabled = false
+    lazy var confirmButton: IconButton = {
+        let iconButton: IconButton
+        switch kind {
+        case .passcode:
+            iconButton = IconButton(style: .default, variant: .light)
+            iconButton.accessibilityIdentifier = "RevealButton"
+            iconButton.accessibilityLabel = "Reveal passcode".localized //TODO
+        default:
+            iconButton = IconButton(style: .circular, variant: .dark)
+            iconButton.accessibilityIdentifier = "ConfirmButton"
+            iconButton.accessibilityLabel = "general.next".localized
+        }
+        iconButton.isEnabled = true
         return iconButton
     }()
 
@@ -213,6 +222,14 @@ final class AccessoryTextField: UITextField, TextContainer, Themeable {
         case .unknown:
             keyboardType = .asciiCapable
             textContentType = nil
+        case .passcode:
+            isSecureTextEntry = true
+            accessibilityIdentifier = "PasscodeField"
+            autocapitalizationType = .none
+            if #available(iOS 12, *) {
+                textContentType = .newPassword
+                passwordRules = textFieldValidator.passwordRules
+            }
         }
     }
 
@@ -249,10 +266,19 @@ final class AccessoryTextField: UITextField, TextContainer, Themeable {
             confirmButton.setBackgroundImageColor(.clear, for: .normal)
             confirmButton.setBackgroundImageColor(.clear, for: .disabled)
         } else {
-            confirmButton.setIconColor(UIColor.Team.textfieldColor, for: .normal)
-            confirmButton.setIconColor(UIColor.Team.textfieldColor, for: .disabled)
-            confirmButton.setBackgroundImageColor(UIColor.Team.activeButtonColor, for: .normal)
-            confirmButton.setBackgroundImageColor(UIColor.Team.inactiveButtonColor, for: .disabled)
+            
+            switch kind {
+            case .passcode:
+                confirmButton.setIconColor(UIColor.Team.textColor, for: .normal)
+                confirmButton.setIconColor(UIColor.Team.textColor, for: .disabled)
+                confirmButton.setBackgroundImageColor(.clear, for: .normal)
+                confirmButton.setBackgroundImageColor(.clear, for: .disabled)
+            default:
+                confirmButton.setIconColor(UIColor.Team.textfieldColor, for: .normal)
+                confirmButton.setIconColor(UIColor.Team.textfieldColor, for: .disabled)
+                confirmButton.setBackgroundImageColor(UIColor.Team.activeButtonColor, for: .normal)
+                confirmButton.setBackgroundImageColor(UIColor.Team.inactiveButtonColor, for: .disabled)
+            }
         }
 
         confirmButton.adjustsImageWhenDisabled = false

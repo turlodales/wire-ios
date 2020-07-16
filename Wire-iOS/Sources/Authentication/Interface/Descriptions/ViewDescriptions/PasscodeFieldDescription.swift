@@ -66,7 +66,16 @@ extension PasscodeFieldDescription: ViewDescriptor, PasscodeTextFieldDelegate {
 
 final class PasscodeTextField: UIView, MagicTappable {
     
-    let passwordField = AccessoryTextField(kind: .password(isNew: false)) ///TODO: eye icon
+    lazy var passwordField: AccessoryTextField = {
+        let textField = AccessoryTextField(kind: .passcode)
+
+        textField.overrideButtonIcon = .eye //TODO: eye with slash, change icon when pressed
+        
+        return textField
+    }()
+    
+
+    
     private let contentStack = UIStackView()
     
     weak var delegate: PasscodeTextFieldDelegate?

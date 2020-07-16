@@ -58,6 +58,9 @@ class TextFieldValidator {
                 // If the user is signing in, we do not require any format
                 return text.isEmpty ? .tooShort(kind: kind) : nil
             }
+        case .passcode:
+                let result = PasswordRuleSet.shared.validatePassword(text)
+                return result != .valid ? .invalidPassword(result) : nil
 
         case .name:
             /// We should ignore leading/trailing whitespace when counting the number of characters in the string
@@ -95,7 +98,7 @@ extension TextFieldValidator.ValidationError: LocalizedError {
                 return "name.guidance.tooshort".localized
             case .email:
                 return "email.guidance.tooshort".localized
-            case .password:
+            case .password, .passcode:
                 return PasswordRuleSet.localizedErrorMessage
             case .unknown:
                 return "unknown.guidance.tooshort".localized
@@ -108,7 +111,7 @@ extension TextFieldValidator.ValidationError: LocalizedError {
                 return "name.guidance.toolong".localized
             case .email:
                 return "email.guidance.toolong".localized
-            case .password:
+            case .password, .passcode:
                 return "password.guidance.toolong".localized
             case .unknown:
                 return "unknown.guidance.toolong".localized
