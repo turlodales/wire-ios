@@ -41,7 +41,7 @@ class BackupRestoreStepDescriptionSecondaryView: AuthenticationSecondaryViewDesc
  * The step that displays information about the history.
  */
 
-class BackupRestoreStepDescription: AuthenticationStepDescription {
+final class BackupRestoreStepDescription: AuthenticationStepDescription {
 
     let backButton: BackButtonDescription?
     let mainView: ViewDescriptor & ValueSubmission

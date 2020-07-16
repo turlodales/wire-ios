@@ -58,9 +58,14 @@ extension SolidButtonDescription: ViewDescriptor {
         let buttonContainer = UIView()
         buttonContainer.addSubview(button)
         buttonContainer.translatesAutoresizingMaskIntoConstraints = false
-
+        
+        let heightConstraint = button.heightAnchor.constraint(equalToConstant: 56)
+        heightConstraint.priority = .defaultHigh
+        
         NSLayoutConstraint.activate([
             button.widthAnchor.constraint(equalToConstant: 200),
+            heightConstraint,
+            
             button.topAnchor.constraint(equalTo: buttonContainer.topAnchor),
             button.bottomAnchor.constraint(equalTo: buttonContainer.bottomAnchor),
             button.centerXAnchor.constraint(equalTo: buttonContainer.centerXAnchor)

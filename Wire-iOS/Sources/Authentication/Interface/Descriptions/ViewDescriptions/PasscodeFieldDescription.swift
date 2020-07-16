@@ -42,7 +42,7 @@ extension PasscodeFieldDescription: ViewDescriptor, PasscodeTextFieldDelegate {
     func create() -> UIView {
         textField.passwordField.kind = .password(isNew: true)
         textField.delegate = self
-
+        
         return textField
     }
     
@@ -98,7 +98,7 @@ final class PasscodeTextField: UIView, MagicTappable {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     private func configureSubviews() {
         //TODO: clean up with EmailPasswordTextField
         contentStack.axis = .vertical
@@ -106,11 +106,11 @@ final class PasscodeTextField: UIView, MagicTappable {
         contentStack.alignment = .fill
         contentStack.distribution = .fill
         addSubview(contentStack)
-                
+        
         passwordField.delegate = self
         passwordField.textFieldValidationDelegate = self
         passwordField.placeholder = "password.placeholder".localized(uppercased: true)
-//        passwordField.bindConfirmationButton(to: emailField)
+        //        passwordField.bindConfirmationButton(to: emailField)
         passwordField.addTarget(self, action: #selector(textInputDidChange), for: .editingChanged)
         passwordField.confirmButton.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
         passwordField.colorSchemeVariant = colorSchemeVariant
@@ -122,12 +122,24 @@ final class PasscodeTextField: UIView, MagicTappable {
         contentStack.addArrangedSubview(passwordField)
         
         //MARK: labels
-        let label = UILabel()
-        label.text = "❌ 8 characters long" //TODO: text attachment
-//        1 lowercase letter
-//        1 capital letter
-//        1 special character"
-        contentStack.addArrangedSubview(label)
+        
+        let texts = ["❌ 8 characters long",
+                     "❌ 1 lowercase letter",
+                     "❌ 1 capital letter",
+                     "❌ 1 special character"]
+        
+        texts.forEach() {
+            let label = UILabel()
+            
+            //TODO: clean up with EmailLinkVerificationMainView
+            label.font = AuthenticationStepController.subtextFont
+            label.textColor = UIColor.Team.subtitleColor
+            label.numberOfLines = 0
+            label.lineBreakMode = .byWordWrapping
+            
+            label.text = $0
+            contentStack.addArrangedSubview(label)
+        }
     }
     
     private func configureConstraints() {
@@ -144,7 +156,7 @@ final class PasscodeTextField: UIView, MagicTappable {
             contentStack.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
     }
-        
+    
     // MARK: - Appearance
     
     func setTextColor(_ color: UIColor) {
@@ -233,6 +245,6 @@ extension PasscodeTextField: UITextFieldDelegate {
 
 extension PasscodeTextField: TextFieldValidationDelegate {
     func validationUpdated(sender: UITextField, error: TextFieldValidator.ValidationError?) {
-            passwordValidationError = error
+        passwordValidationError = error
     }
 }
