@@ -176,7 +176,7 @@ class AuthenticationStepController: AuthenticationStepViewController {
 
         let subviews = [headlineLabelContainer, subtextLabelContainer, mainView, errorLabelContainer, secondaryViewsStackView].compactMap { $0 }
 
-        contentStack = CustomSpacingStackView(customSpacedArrangedSubviews: subviews)
+        contentStack = CustomSpacingStackView(customSpacedArrangedSubviews: subviews) ///TODO:
         contentStack.axis = .vertical
         contentStack.distribution = .fill
         contentStack.alignment = .fill

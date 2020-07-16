@@ -787,7 +787,7 @@
 		A990059C23F196170089CDEB /* AnimatedListMenuViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A990059A23F195A70089CDEB /* AnimatedListMenuViewTests.swift */; };
 		A993719123F7461600881564 /* UIView+ExtendedBlockAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = A993719023F7461600881564 /* UIView+ExtendedBlockAnimations.swift */; };
 		A9A2FDEC24BF5BD7004D02CA /* CreateAppLockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A2FDEB24BF5BD7004D02CA /* CreateAppLockViewController.swift */; };
-		A9A2FDF124BF5EA9004D02CA /* CreatePasscodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A2FDEE24BF5E1D004D02CA /* CreatePasscodeViewController.swift */; };
+		A9A2FDF124BF5EA9004D02CA /* CreatePasscodeViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A2FDEE24BF5E1D004D02CA /* CreatePasscodeViewControllerTests.swift */; };
 		A9A2FDF224BF5EC3004D02CA /* AuthenticationStepDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16426FD1FCC5A2C00D2ABFC /* AuthenticationStepDescription.swift */; };
 		A9AC63E123FC4A2D00016ABC /* AVURLAsset+conversionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC63E023FC4A2D00016ABC /* AVURLAsset+conversionTests.swift */; };
 		A9BA580D2497994D005B806B /* ContextMenuDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA580C2497994D005B806B /* ContextMenuDelegate.swift */; };
@@ -2381,7 +2381,7 @@
 		A990059A23F195A70089CDEB /* AnimatedListMenuViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedListMenuViewTests.swift; sourceTree = "<group>"; };
 		A993719023F7461600881564 /* UIView+ExtendedBlockAnimations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+ExtendedBlockAnimations.swift"; sourceTree = "<group>"; };
 		A9A2FDEB24BF5BD7004D02CA /* CreateAppLockViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAppLockViewController.swift; sourceTree = "<group>"; };
-		A9A2FDEE24BF5E1D004D02CA /* CreatePasscodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePasscodeViewController.swift; sourceTree = "<group>"; };
+		A9A2FDEE24BF5E1D004D02CA /* CreatePasscodeViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePasscodeViewControllerTests.swift; sourceTree = "<group>"; };
 		A9AC63E023FC4A2D00016ABC /* AVURLAsset+conversionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVURLAsset+conversionTests.swift"; sourceTree = "<group>"; };
 		A9B02231209B6E4E00DF25D8 /* AppCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCenter.swift; sourceTree = "<group>"; };
 		A9BA580C2497994D005B806B /* ContextMenuDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextMenuDelegate.swift; sourceTree = "<group>"; };
@@ -5542,7 +5542,7 @@
 		A9A2FDED24BF5E05004D02CA /* CustomAppLock */ = {
 			isa = PBXGroup;
 			children = (
-				A9A2FDEE24BF5E1D004D02CA /* CreatePasscodeViewController.swift */,
+				A9A2FDEE24BF5E1D004D02CA /* CreatePasscodeViewControllerTests.swift */,
 			);
 			path = CustomAppLock;
 			sourceTree = "<group>";
@@ -8135,7 +8135,7 @@
 				EE876CAE23F2FCB100040D75 /* SwiftMockLoader.swift in Sources */,
 				BF7ED2DC1DF1D1CF003A4397 /* IncomingConnectionViewTests.swift in Sources */,
 				EF29E89C212302CD0023B80C /* AudioMessageViewTests.swift in Sources */,
-				A9A2FDF124BF5EA9004D02CA /* CreatePasscodeViewController.swift in Sources */,
+				A9A2FDF124BF5EA9004D02CA /* CreatePasscodeViewControllerTests.swift in Sources */,
 				EF10CB20215105A400AEA8EA /* UITableViewCell+Snapshot.swift in Sources */,
 				5EF7BA72221C74ED00815625 /* MockUser+Convenience.swift in Sources */,
 				BA79B0A91B62851F00F23AFB /* SoundEventRulesWatchDogTests.swift in Sources */,

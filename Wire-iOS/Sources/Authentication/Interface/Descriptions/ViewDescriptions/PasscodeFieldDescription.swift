@@ -66,8 +66,8 @@ extension PasscodeFieldDescription: ViewDescriptor, PasscodeTextFieldDelegate {
 
 final class PasscodeTextField: UIView, MagicTappable {
     
-    let passwordField = AccessoryTextField(kind: .password(isNew: false))
-    let contentStack = UIStackView()
+    let passwordField = AccessoryTextField(kind: .password(isNew: false)) ///TODO: eye icon
+    private let contentStack = UIStackView()
     
     weak var delegate: PasscodeTextFieldDelegate?
     
@@ -100,6 +100,7 @@ final class PasscodeTextField: UIView, MagicTappable {
     }
 
     private func configureSubviews() {
+        //TODO: clean up with EmailPasswordTextField
         contentStack.axis = .vertical
         contentStack.spacing = 0
         contentStack.alignment = .fill
@@ -119,6 +120,14 @@ final class PasscodeTextField: UIView, MagicTappable {
         }
         
         contentStack.addArrangedSubview(passwordField)
+        
+        //MARK: labels
+        let label = UILabel()
+        label.text = "❌ 8 characters long" //TODO: text attachment
+//        1 lowercase letter
+//        1 capital letter
+//        1 special character"
+        contentStack.addArrangedSubview(label)
     }
     
     private func configureConstraints() {
