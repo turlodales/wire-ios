@@ -242,6 +242,11 @@ final class LandingViewController: AuthenticationStepViewController {
             self.updateCustomBackendLabels()
             self.updateButtons()
         }
+        
+        let createPasscodeViewController = CreatePasscodeViewController()
+        
+        //TODO: debug.
+        present(createPasscodeViewController, animated: true)
     }
 
     override func viewDidAppear(_ animated: Bool) {
