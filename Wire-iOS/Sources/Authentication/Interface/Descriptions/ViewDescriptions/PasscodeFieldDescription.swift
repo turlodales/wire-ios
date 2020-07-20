@@ -81,11 +81,20 @@ final class PasscodeTextField: UIView {
     
     weak var delegate: PasscodeTextFieldDelegate?
     
+    //TODO paint code icon
+    private let crossIconTextAttachment: NSTextAttachment! = {
+        if #available(iOS 13, *) {
+            return NSTextAttachment(image: UIImage(named: "dismiss")!)
+        }
+        
+        return nil // TODO
+    }()
+    
     private(set) var passwordValidationError: TextFieldValidator.ValidationError? = .tooShort(kind: .email) {
         didSet {
             ErrorReason.allCases.forEach() {
                 if let label = errorLabels[$0] {
-                    label.text = $0.errorMessage
+                    label.text = "✅" + $0.errorMessage ///TODO: icon
                 }
             }
             
@@ -93,7 +102,9 @@ final class PasscodeTextField: UIView {
             case .invalidPassword(let error):
                 switch error {
                 case .tooShort:
-                    errorLabels[.tooShort]?.text = "❌" + ErrorReason.tooShort.errorMessage
+                    let attributedString = NSAttributedString(attachment: crossIconTextAttachment) + ErrorReason.tooShort.errorMessage
+
+                    errorLabels[.tooShort]?.attributedText = attributedString
                 case .missingRequiredClasses(let passwordCharacterClass):
                     
                     
