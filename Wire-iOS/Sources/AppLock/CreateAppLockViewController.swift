@@ -42,7 +42,7 @@ final class CreatePasscodeStepDescription: AuthenticationStepDescription {
         mainView = passwordField
         //TODO: text copy
         headline = "Create a Passcode".localized
-        subtext = "It will unlock your app to use Wire."
+        subtext = "It will unlock your app to use Wire." ///TODO: attritubed string?
         secondaryView = CreatePassphraseSecondaryView()
     }
     
@@ -54,7 +54,7 @@ final class CreatePassphraseSecondaryView: AuthenticationSecondaryViewDescriptio
     weak var actioner: AuthenticationActioner?
     
     init() {
-        
+        ///TODO: full width button like launch screen
         let createPasscodeButton = SolidButtonDescription(title: "Create passcode".localized(uppercased: true), //TODO:
                                                     accessibilityIdentifier: "create_passcode")
         views = [createPasscodeButton]

@@ -97,7 +97,10 @@ final class PasscodeTextField: UIView {
                 case .missingRequiredClasses(let passwordCharacterClass):
                     
                     
-                    let passwordCharacterClasses: [PasswordCharacterClass] = [.uppercase, .lowercase, .special]
+                    let passwordCharacterClasses: [PasswordCharacterClass] = [.uppercase,
+                                                                              .lowercase,
+                                                                              .special,
+                                                                              .digits]
                     
                     passwordCharacterClasses.forEach() {
                         let errorReason: ErrorReason?
@@ -109,6 +112,8 @@ final class PasscodeTextField: UIView {
                                 errorReason = .noLowercaseChar
                             case .special:
                                 errorReason = .noSpecialChar
+                            case .digits:
+                                errorReason = .noNumber
                             default:
                                 errorReason = nil
                             }
@@ -116,7 +121,7 @@ final class PasscodeTextField: UIView {
                             errorReason = nil
                         }
                         
-                        if let errorReasonUnwrapped = errorReason {
+                        if let errorReasonUnwrapped = errorReason { ///TODO: text attachment
                             errorLabels[errorReasonUnwrapped]?.text = "❌" + errorReasonUnwrapped.errorMessage
                         }
                     }
@@ -148,9 +153,10 @@ final class PasscodeTextField: UIView {
         case tooShort
         case noLowercaseChar
         case noUppercaseChar
+        case noNumber
         case noSpecialChar
-        //TODO: no number?
-        
+
+        //TODO: localize
         var errorMessage: String {
             switch self {
                 
@@ -162,16 +168,22 @@ final class PasscodeTextField: UIView {
                 return "1 capital letter"
             case .noSpecialChar:
                 return "1 special character"
+            case .noNumber:
+                return "1 Number"
             }
         }
     }
     
-    private let errorLabels: [ErrorReason:UILabel] = [
-        .tooShort: UILabel(),
-        .noLowercaseChar: UILabel(),
-        .noUppercaseChar: UILabel(),
-        .noSpecialChar: UILabel()
-    ]
+    private let errorLabels: [ErrorReason:UILabel] = {
+        
+        let myDictionary = ErrorReason.allCases.reduce([ErrorReason: UILabel]()) { (dict, errorReason) -> [ErrorReason: UILabel] in
+            var dict = dict
+            dict[errorReason] = UILabel()
+            return dict
+        }
+        
+        return myDictionary
+    }()
     
     // MARK: - Initialization
     
