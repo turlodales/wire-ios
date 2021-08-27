@@ -119,6 +119,7 @@ public class AppRootRouter: NSObject {
         setupApplicationNotifications()
         setupContentSizeCategoryNotifications()
         setupAudioPermissionsNotifications()
+        setupFeatureConfigNotifications()
     }
 
     private func setupAdditionalWindows() {
@@ -402,13 +403,22 @@ extension AppRootRouter {
 
         if case .authenticated = appState {
             authenticatedRouter?.updateActiveCallPresentationState()
-
+            urlActionRouter.authenticatedRouter = authenticatedRouter
             ZClientViewController.shared?.legalHoldDisclosureController?.discloseCurrentState(cause: .appOpen)
         }
 
+        urlActionRouter.performPendingActions()
         resetSelfUserProviderIfNeeded(for: appState)
-        urlActionRouter.openDeepLink(for: appState)
+        resetAuthenticatedRouterIfNeeded(for: appState)
         appStateTransitionGroup.leave()
+    }
+
+    private func resetAuthenticatedRouterIfNeeded(for appState: AppState) {
+        switch appState {
+        case .authenticated: break
+        default:
+            authenticatedRouter = nil
+        }
     }
 
     private func resetSelfUserProviderIfNeeded(for appState: AppState) {
@@ -465,14 +475,27 @@ extension AppRootRouter {
     }
 }
 
-// MARK: - URLActionRouterDelegete
-extension AppRootRouter: URLActionRouterDelegete {
+// MARK: - URLActionRouterDelegate
+
+extension AppRootRouter: URLActionRouterDelegate {
+
     func urlActionRouterWillShowCompanyLoginError() {
         authenticationCoordinator?.cancelCompanyLogin()
     }
+
+    func urlActionRouterCanDisplayAlerts() -> Bool {
+        switch appStateCalculator.appState {
+        case .authenticated, .unauthenticated:
+            return true
+        default:
+            return false
+        }
+    }
+
 }
 
 // MARK: - ApplicationStateObserving
+
 extension AppRootRouter: ApplicationStateObserving {
     func addObserverToken(_ token: NSObjectProtocol) {
         observerTokens.append(token)
@@ -502,6 +525,7 @@ extension AppRootRouter: ApplicationStateObserving {
 }
 
 // MARK: - ContentSizeCategoryObserving
+
 extension AppRootRouter: ContentSizeCategoryObserving {
     func contentSizeCategoryDidChange() {
         NSAttributedString.invalidateParagraphStyle()
@@ -523,8 +547,17 @@ extension AppRootRouter: ContentSizeCategoryObserving {
 }
 
 // MARK: - AudioPermissionsObserving
+
 extension AppRootRouter: AudioPermissionsObserving {
     func userDidGrantAudioPermissions() {
         sessionManager.updateCallNotificationStyleFromSettings()
+    }
+}
+
+// MARK: - FeatureConfigChangeObserving
+
+extension AppRootRouter: FeatureConfigObserving {
+    func featureConfigDidChange(in featureUpdateEvent: FeatureUpdateEventPayload) {
+        UIAlertController.showFeatureConfigDidChangeAlert(featureUpdateEvent.name, status: featureUpdateEvent.status)
     }
 }
